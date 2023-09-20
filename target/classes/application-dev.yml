@@ -1,0 +1,33 @@
+spring:
+  redis:
+    host: localhost
+    port: 6379
+
+  #数据源配置
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    url: jdbc:mysql://www.zhyjor.com:3306/ai_assistant?useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai
+    username: zhyjor
+    password: yiqigaoyiba@dev
+http:
+  url: http://c2p7v3.natappfree.cc
+#cas:
+#  server-url-prefix: http://126.33.50.237:80/cas/
+#  client-host-url: http://localhost:8081/riskcontrol/auth/login
+
+#logback日志配置
+logging:
+  level: # trace debug info warn error 5个级别，支持不同包名设置不同级别
+    root: debug #整个项目默认
+  file:
+    path: logs # 默认位置是当前项目目录下，logback-spring.xml里用LOG_PATH才能获取到，/var/log
+
+oss:
+  ossenable: true
+  endpoint: ap-shanghai
+  keyid: AKID42nSzNcjbKqIdpT7i9ScUW9d0EIAuVBh
+  bucketname: ai-image-1304610958
+  keysecret: Of3IPOMOdu5ERYWN7rebVK1c6SgZL1Tq
+  filepath: business_gpt/images/
+
+

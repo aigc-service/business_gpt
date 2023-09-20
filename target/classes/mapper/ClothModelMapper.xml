@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.gpt.business.dao.ClothModelMapper">
+  <resultMap id="BaseResultMap" type="org.gpt.business.model.ClothModel">
+    <id column="modelid" jdbcType="VARCHAR" property="modelid" />
+    <result column="userid" jdbcType="VARCHAR" property="userid" />
+    <result column="modelname" jdbcType="VARCHAR" property="modelname" />
+    <result column="prompts" jdbcType="VARCHAR" property="prompts" />
+    <result column="clothurl" jdbcType="VARCHAR" property="clothurl" />
+    <result column="isdel" jdbcType="INTEGER" property="isdel" />
+    <result column="updatetime" jdbcType="TIMESTAMP" property="updatetime" />
+    <result column="createtime" jdbcType="TIMESTAMP" property="createtime" />
+  </resultMap>
+
+  <sql id="Base_Column_List">
+    userid, modelid, modelname, prompts, clothurl, updatetime, createtime, isdel
+  </sql>
+
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from tb_img_business_clothmodel
+    where modelid = #{modelid,jdbcType=VARCHAR}
+  </select>
+
+  <select id="selectList" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from tb_img_business_clothmodel where isdel=0 and (userid = #{userid,jdbcType=VARCHAR} or userid='0')
+  </select>
+
+  <insert id="insert" parameterType="org.gpt.business.model.ClothModel">
+    insert into tb_img_business_clothmodel (userid, modelid, modelname, prompts, clothurl)
+    values (#{userid,jdbcType=VARCHAR},#{modelid,jdbcType=VARCHAR},#{modelname,jdbcType=VARCHAR}, #{prompts,jdbcType=VARCHAR},
+            #{clothurl,jdbcType=VARCHAR})
+  </insert>
+
+  <insert id="insertbatch" parameterType="java.util.List">
+    insert into tb_img_business_clothmodel (modelid, modelname, prompts, clothurl) values
+    <foreach collection="list" item="item" index="index" separator=",">
+      (#{modelid,jdbcType=VARCHAR},#{modelname,jdbcType=VARCHAR}, #{prompts,jdbcType=VARCHAR},
+      #{clothurl,jdbcType=VARCHAR}))
+    </foreach>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="org.gpt.business.model.ClothModel">
+    update tb_img_business_clothmodel
+    <set>
+
+      <if test="isdel != null">
+        isdel = #{isdel,jdbcType=INTEGER},
+      </if>
+      <if test="modelname != null">
+        modelname = #{modelname,jdbcType=VARCHAR},
+      </if>
+      <if test="prompts != null">
+        prompts = #{prompts,jdbcType=VARCHAR},
+      </if>
+      <if test="clothurl != null">
+        clothurl = #{clothurl,jdbcType=VARCHAR},
+      </if>
+
+    </set>
+    where modelid = #{modelid,jdbcType=VARCHAR}
+  </update>
+
+  <update id = "delCloth">
+    update tb_img_business_clothmodel set isdel = 1 where modelid = #{modelid,jdbcType=VARCHAR}
+  </update>
+</mapper>

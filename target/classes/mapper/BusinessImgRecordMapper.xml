@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.gpt.business.dao.BusinessImgRecordMapper">
+  <resultMap id="BaseResultMap" type="org.gpt.business.model.BusinessImgRecordModel">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <id column="userid" jdbcType="VARCHAR" property="user_id" />
+    <id column="iscollect" jdbcType="TINYINT" property="is_collect" />
+    <result column="uuid" jdbcType="VARCHAR" property="uuid" />
+    <result column="prompts" jdbcType="VARCHAR" property="prompts" />
+    <result column="url" jdbcType="VARCHAR" property="url" />
+    <result column="status" jdbcType="VARCHAR" property="status" />
+    <result column="updatetime" jdbcType="TIMESTAMP" property="updatetime" />
+    <result column="createtime" jdbcType="TIMESTAMP" property="createtime" />
+    <result column="negative_prompts" jdbcType="VARCHAR" property="negative_prompts" />
+  </resultMap>
+
+  <sql id="Base_Column_List">
+    id,userid,iscollect, uuid, url, status, updatetime, createtime, prompts, negative_prompts
+  </sql>
+
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from tb_img_business_record
+    where uuid = #{uuid,jdbcType=VARCHAR}
+  </select>
+
+  <select id="selectList"  resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from tb_img_business_record where
+
+    <if test="userId != null and userId !=''">
+         userid=#{userId,jdbcType=VARCHAR}
+    </if>
+    <if test="btime != null and btime !=''">
+        and createtime >= #{btime,jdbcType=TIMESTAMP}
+    </if>
+    <if test="etime != null and etime !=''">
+        and createtime &lt;= #{etime,jdbcType=TIMESTAMP}
+    </if>
+    <if test="collect">
+        and iscollect=1
+    </if>
+
+  </select>
+
+  <insert id="insert" parameterType="org.gpt.business.model.BusinessImgRecordModel">
+    insert into tb_img_business_record (uuid, status, prompts, negative_prompts)
+    values (#{uuid,jdbcType=VARCHAR},#{status,jdbcType=VARCHAR}, #{prompts,jdbcType=VARCHAR},
+            #{negative_prompts,jdbcType=VARCHAR})
+  </insert>
+
+  <insert id="insertbatch" parameterType="java.util.List">
+    insert into tb_img_business_record (uuid, status, prompts, negative_prompts) values
+    <foreach collection="list" item="item" index="index" separator=",">
+      (#{uuid,jdbcType=VARCHAR},#{status,jdbcType=VARCHAR}, #{prompts,jdbcType=VARCHAR},
+      #{negative_prompts,jdbcType=VARCHAR})
+    </foreach>
+  </insert>
+
+  <insert id="insertSelective" parameterType="org.gpt.business.model.BusinessImgRecordModel">
+    insert into tb_img_business_record
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="user_id != null">
+        userid,
+      </if>
+      <if test="uuid != null">
+        uuid,
+      </if>
+      <if test="url != null">
+        url,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="prompts != null">
+        prompts,
+      </if>
+      <if test="negative_prompts != null">
+        negative_prompts,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="user_id != null">
+        #{user_id,jdbcType=VARCHAR},
+      </if>
+      <if test="uuid != null">
+        #{uuid,jdbcType=VARCHAR},
+      </if>
+      <if test="url != null">
+        #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="prompts != null">
+        #{prompts,jdbcType=VARCHAR},
+      </if>
+      <if test="negative_prompts != null">
+        #{negative_prompts,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="org.gpt.business.model.BusinessImgRecordModel">
+    update tb_img_business_record
+    <set>
+
+      <if test="url != null">
+        url = #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="prompts != null">
+        prompts = #{prompts,jdbcType=VARCHAR},
+      </if>
+      <if test="negative_prompts != null">
+        negative_prompts = #{negative_prompts,jdbcType=VARCHAR},
+      </if>
+
+    </set>
+    where uuid = #{uuid,jdbcType=VARCHAR}
+  </update>
+
+  <update id="collectRecord">
+    update tb_img_business_record set iscollect = #{collect,jdbcType=TINYINT}
+    where uuid = #{uuid,jdbcType=VARCHAR}
+  </update>
+
+  <update id="delRecord">
+    update tb_img_business_record set isdel = 1
+    where uuid = #{uuid,jdbcType=VARCHAR}
+  </update>
+
+</mapper>

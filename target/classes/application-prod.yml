@@ -1,0 +1,22 @@
+spring:
+  #redis
+  redis:
+    host: 10.145.102.85
+    port: 6379
+    password: 59Qf9907miMc
+  #db
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    url: jdbc:mysql://10.145.102.83:3306/emg_bussiness?useUnicode=true&characterEncoding=utf-8&erverTimezone=Asia/Shanghai
+    username: emg_2020
+    password: 2020_emg
+
+#cas:
+#  server-url-prefix: http://zrzh.yjt.zj.gov.cn/cas/
+#  client-host-url: http://zrzh.yjt.zj.gov.cn/riskcontrol/auth/login
+
+logging:
+  level: # trace debug info warn error 5个级别，支持不同包名设置不同级别
+      root: error #整个项目默认
+  file:
+      path: logs # 默认位置是当前项目目录下，logback-spring.xml里用LOG_PATH才能获取到，/var/log

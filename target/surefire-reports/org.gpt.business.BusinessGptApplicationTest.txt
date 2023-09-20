@@ -1,0 +1,8 @@
+-------------------------------------------------------------------------------
+Test set: org.gpt.business.BusinessGptApplicationTest
+-------------------------------------------------------------------------------
+Tests run: 2, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 7.104 s <<< FAILURE! - in org.gpt.business.BusinessGptApplicationTest
+translatePormpts  Time elapsed: 1.533 s  <<< ERROR!
+java.lang.NullPointerException
+	at org.gpt.business.BusinessGptApplicationTest.translatePormpts(BusinessGptApplicationTest.java:24)
+
